@@ -7,15 +7,20 @@ from carnot import CarnotEngine
 
 # 1. 디자인 및 폰트 설정
 def set_design():
-    system_name = platform.system()
-    if system_name == "Windows":
-        mpl.rc('font', family='Malgun Gothic')
-    elif system_name == "Darwin":
-        mpl.rc('font', family='AppleGothic')
-    else:
-        mpl.rc('font', family='NanumGothic')
+    # Streamlit Cloud(Linux) 환경을 고려하여 폰트 에러 방지
+    try:
+        system_name = platform.system()
+        if system_name == "Windows":
+            mpl.rc('font', family='Malgun Gothic')
+        elif system_name == "Darwin":
+            mpl.rc('font', family='AppleGothic')
+        else:
+            # 리눅스 서버에서는 기본적으로 영문을 쓰고 한글 깨짐 방지만 설정
+            mpl.rc('font', family='DejaVu Sans') 
+    except:
+        pass
     mpl.rc('axes', unicode_minus=False)
-    plt.style.use('default') # 그래프 스타일 적용
+    plt.style.use('default')
 
 set_design()
 
@@ -28,6 +33,7 @@ st.divider()
 col1, col2 = st.columns([1, 2], gap="large")
 
 with col1:
+
     st.subheader("시뮬레이션 설정")
     
     # 입력 슬라이더
@@ -46,8 +52,8 @@ with col1:
     # 분석 결과 지표 (디자인 강화)
     st.subheader("성능 지표")
     c1, c2 = st.columns(2)
-    c1.metric("카르노 효율 ($\eta$)", f"{eta:.1f}%")
-    c2.metric("총 한 일 ($W$)", f"{work:.2f} J")
+    c1.metric(label="카르노 효율 ($\eta$)", value=f"{eta:.1f}%")
+    c2.metric(label="총 한 일 ($W$)", value=f"{work:.2f} J")
 
     st.info(f"""
     **Cycle Info:**
