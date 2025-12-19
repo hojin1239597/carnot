@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import platform
 import matplotlib as mpl
-from carnot import CarnotEngine  
+from carnot import CarnotEngine
 
 # 1. 디자인 및 폰트 설정
 def set_design():
@@ -67,9 +67,13 @@ with col2:
     fig, ax = plt.subplots(figsize=(10, 7))
     curves = engine.pv_curves()
     
-    # 색상 테마
     colors = ['#d62728', '#ff7f0e', '#1f77b4', '#2ca02c']
-    labels = ['등온 팽창 ($T_H$)', '단열 팽창', '등온 압축 ($T_C$)', '단열 압축']
+    labels = [
+        r'Isothermal Expansion ($T_H$)', 
+        'Adiabatic Expansion', 
+        r'Isothermal Compression ($T_C$)', 
+        'Adiabatic Compression'
+    ]
 
     # 2. 각 과정 선 그리기
     for i, (V, P, _) in enumerate(curves):
@@ -81,8 +85,8 @@ with col2:
                     arrowprops=dict(arrowstyle="->", color=colors[i], lw=2))
 
     # 그래프 디테일
-    ax.set_xlabel("부피 $V$ (Volume)", fontsize=12)
-    ax.set_ylabel("압력 $P$ (Pressure)", fontsize=12)
+    ax.set_xlabel("$V$ (Volume)", fontsize=12)
+    ax.set_ylabel("$P$ (Pressure)", fontsize=12)
     ax.set_title(f"P-V Diagram", fontsize=15, pad=20)
     ax.legend(loc='upper right', frameon=True, facecolor='white')
     ax.grid(True, linestyle=':', alpha=0.6)
